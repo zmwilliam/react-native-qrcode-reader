@@ -1,63 +1,67 @@
 'use strict';
 
-var React = require('react-native');
+import React, {Component}from 'react'
 
-var {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  VibrationIOS,
-} = React;
+import {
+    StyleSheet,
+    View,
+    Text,
+    TouchableOpacity,
+    Vibration
+} from 'react-native'
 
 import Camera from 'react-native-camera';
 
-var QRCodeScreen = React.createClass({
+export default class QRCodeScreen extends Component {
 
-  propTypes: {
+  static propTypes= {
     cancelButtonVisible: React.PropTypes.bool,
     cancelButtonTitle: React.PropTypes.string,
     onSucess: React.PropTypes.func,
-    onCancel: React.PropTypes.func,
-  },
+    onCancel: React.PropTypes.func
+  }
 
-  getDefaultProps: function() {
-    return {
+  static getDefaultProps= {
       cancelButtonVisible: false,
-      cancelButtonTitle: 'Cancel',
-    };
-  },
+      cancelButtonTitle: 'Cancel'
+  }
 
-  _onPressCancel: function() {
-    var $this = this;
-    requestAnimationFrame(function() {
-      $this.props.navigator.pop();
-      if ($this.props.onCancel) {
-        $this.props.onCancel();
-      }
-    });
-  },
+  constructor(props) {
+    super(props)
 
-  _onBarCodeRead: function(result) {
+    this._onPressCancel = this._onPressCancel.bind(this)
+  }
+
+  _onPressCancel() {
+    const {navigator, onCancel} = this.props
+    navigator.pop();
+    if(onCancel) {
+        onCancel()
+    }
+  }
+
+  _onBarCodeRead = (result) =>  {
     var $this = this;
 
     if (this.barCodeFlag) {
       this.barCodeFlag = false;
 
       setTimeout(function() {
-        VibrationIOS.vibrate();
+        Vibration.vibrate();
         $this.props.navigator.pop();
         $this.props.onSucess(result.data);
       }, 1000);
     }
-  },
+  }
 
-  render: function() {
+  render(){
     var cancelButton = null;
     this.barCodeFlag = true;
-    
-    if (this.props.cancelButtonVisible) {
-      cancelButton = <CancelButton onPress={this._onPressCancel} title={this.props.cancelButtonTitle} />;
+
+    const {cancelButtonVisible, cancelButtonTitle} = this.props
+
+    if (cancelButtonVisible) {
+      cancelButton = <CancelButton onPress={this._onPressCancel} title={cancelButtonTitle} />;
     }
 
     return (
@@ -68,11 +72,12 @@ var QRCodeScreen = React.createClass({
         {cancelButton}
       </Camera>
     );
-  },
-});
+  }
+}
 
-var CancelButton = React.createClass({
-  render: function() {
+
+class CancelButton extends React.Component {
+  render() {
     return (
       <View style={styles.cancelButton}>
         <TouchableOpacity onPress={this.props.onPress}>
@@ -80,10 +85,10 @@ var CancelButton = React.createClass({
         </TouchableOpacity>
       </View>
     );
-  },
-});
+  }
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   camera: {
     height: 568,
@@ -120,5 +125,3 @@ var styles = StyleSheet.create({
     color: '#0097CE',
   },
 });
-
-module.exports = QRCodeScreen;
