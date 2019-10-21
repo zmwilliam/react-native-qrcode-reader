@@ -89,7 +89,6 @@ class CancelButton extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
   camera: {
     height: 568,
     alignItems: 'center',
