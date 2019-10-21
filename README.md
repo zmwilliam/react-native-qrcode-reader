@@ -102,4 +102,5 @@ Will call the specified method when a barcode is detected in the camera's view.
 Event contains a string with the barcode.
 
 #### `onCancel`
+
 Will call the specified method when cancel button was pressed.
