@@ -4,6 +4,7 @@ A simple QR Code Reader Screen implemented with [react-native-camera](https://gi
 ![qrcode-reader](https://raw.githubusercontent.com/lazaronixon/react-native-qrcode-reader/master/screenshots/screen.png)
 
 ## Getting started
+
 1. Install [react-native-camera](https://github.com/lwansbrough/react-native-camera/blob/master/README.md#getting-started).
 2. Copy QRCodeScreen.js to your project.
 
@@ -102,5 +103,4 @@ Will call the specified method when a barcode is detected in the camera's view.
 Event contains a string with the barcode.
 
 #### `onCancel`
-
 Will call the specified method when cancel button was pressed.
